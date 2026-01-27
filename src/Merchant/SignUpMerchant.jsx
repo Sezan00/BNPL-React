@@ -1,6 +1,51 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 
 const SignUpMerchant = () => {
+ 
+    // const [document, setDocument] = useState([]);
+
+    // console.log('doc',document);
+
+//    useEffect(() => {
+//     const fetchDocument = async () => {
+//         try{
+//             const res = await axios.get("http://localhost:8000/api/document");
+//              setDocument(res.data.document);
+//         } catch(err){
+//             console.log('Error fetch', err);
+//         }
+//     }
+//      fetchDocument();
+//    }, [])
+    const [formData, setFormData] = useState({
+        merchant_name: "",
+        email:"",
+        password: "",
+        business_name: "",
+        phone:""
+    })
+
+    const handleChange = (e) => {
+        setFormData({...formData, [e.target.name]:e.target.value})
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try{
+            const data = await axios.post(`http://localhost:8000/api/register/merchant`, formData)
+            console.log(data.data.message);
+        } catch (err) {
+  if (err.response) {
+    console.log(err.response.data.errors);
+  } else {
+    console.log(err);
+  }
+}
+    }
+
+    
+
     return (
         <>
             <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
@@ -17,7 +62,7 @@ const SignUpMerchant = () => {
                     </div>
 
                     {/* Form */}
-                    <form className="space-y-5">
+                    <form className="space-y-5" onSubmit={handleSubmit}>
 
                         {/* Business Name */}
                         <div>
@@ -25,6 +70,8 @@ const SignUpMerchant = () => {
                                 Business Name
                             </label>
                             <input
+                                name='business_name'
+                                onChange={handleChange}
                                 type="text"
                                 placeholder="Your business name"
                                 className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -37,6 +84,8 @@ const SignUpMerchant = () => {
                                 Owner Name
                             </label>
                             <input
+                                name='merchant_name'
+                                onChange={handleChange}
                                 type="text"
                                 placeholder="Full name"
                                 className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -49,11 +98,20 @@ const SignUpMerchant = () => {
                                 Email Address
                             </label>
                             <input
+                                name='email'
+                                onChange={handleChange}
                                 type="email"
                                 placeholder="merchant@example.com"
                                 className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             />
                         </div>
+
+                        {/* <select className='w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"'>
+                                <option value="">Document</option>
+                            {document.map((doc)=> (
+                                <option key={doc.id} value={doc.id}> {doc.name} </option>
+                            ))}
+                        </select> */}
 
                         {/* Phone */}
                         <div>
@@ -61,6 +119,8 @@ const SignUpMerchant = () => {
                                 Phone Number
                             </label>
                             <input
+                                name='phone'
+                                onChange={handleChange}
                                 type="text"
                                 placeholder="+880 1XXXXXXXXX"
                                 className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -73,18 +133,8 @@ const SignUpMerchant = () => {
                                 Password
                             </label>
                             <input
-                                type="password"
-                                placeholder="••••••••"
-                                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            />
-                        </div>
-
-                        {/* Confirm Password */}
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Confirm Password
-                            </label>
-                            <input
+                                name='password'
+                                onChange={handleChange}
                                 type="password"
                                 placeholder="••••••••"
                                 className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -107,7 +157,7 @@ const SignUpMerchant = () => {
 
                         {/* Submit */}
                         <button
-                            type="button"
+                            type="submit"
                             className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-semibold transition"
                         >
                             Create Merchant Account
