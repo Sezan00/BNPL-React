@@ -1,50 +1,52 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 const SignUpMerchant = () => {
- 
+
+    const navigate = useNavigate();
     // const [document, setDocument] = useState([]);
 
     // console.log('doc',document);
 
-//    useEffect(() => {
-//     const fetchDocument = async () => {
-//         try{
-//             const res = await axios.get("http://localhost:8000/api/document");
-//              setDocument(res.data.document);
-//         } catch(err){
-//             console.log('Error fetch', err);
-//         }
-//     }
-//      fetchDocument();
-//    }, [])
+    //    useEffect(() => {
+    //     const fetchDocument = async () => {
+    //         try{
+    //             const res = await axios.get("http://localhost:8000/api/document");
+    //              setDocument(res.data.document);
+    //         } catch(err){
+    //             console.log('Error fetch', err);
+    //         }
+    //     }
+    //      fetchDocument();
+    //    }, [])
     const [formData, setFormData] = useState({
         merchant_name: "",
-        email:"",
+        email: "",
         password: "",
         business_name: "",
-        phone:""
+        phone: ""
     })
 
     const handleChange = (e) => {
-        setFormData({...formData, [e.target.name]:e.target.value})
+        setFormData({ ...formData, [e.target.name]: e.target.value })
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try{
+        try {
             const data = await axios.post(`http://localhost:8000/api/register/merchant`, formData)
+            navigate('/merchant-login');
             console.log(data.data.message);
         } catch (err) {
-  if (err.response) {
-    console.log(err.response.data.errors);
-  } else {
-    console.log(err);
-  }
-}
+            if (err.response) {
+                console.log(err.response.data.errors);
+            } else {
+                console.log(err);
+            }
+        }
     }
 
-    
 
     return (
         <>
@@ -167,9 +169,12 @@ const SignUpMerchant = () => {
                     {/* Footer */}
                     <p className="text-center text-sm text-gray-500 mt-6">
                         Already have an account?{" "}
-                        <span className="text-indigo-600 font-medium cursor-pointer">
+                        <Link
+                            to="/merchant-login"
+                            className='text-indigo-600 font-medium cursor-pointer'
+                        >
                             Login
-                        </span>
+                        </Link>
                     </p>
                 </div>
             </div>

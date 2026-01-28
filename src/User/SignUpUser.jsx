@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import { registerUser } from "../Api/RegisterApi";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 export const SignUpUser = () => {
@@ -152,6 +152,7 @@ export const SignUpUser = () => {
                         <span className="text-indigo-600 font-medium cursor-pointer">
                             Login
                         </span>
+                     
                     </p>
                 </div>
             </div>
