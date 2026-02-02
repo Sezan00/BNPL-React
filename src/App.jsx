@@ -16,7 +16,8 @@ import MerchantDashboard  from './Merchant/MerchantDashboard'
 //stripe provider
 import StripeProvider from './Stripe/StripeProvider'
 import AddCard from './Card/AddCard'
-
+// pay now 
+import PayNow from './Payment/PayNow'
 function App() {
   return (
   <Routes>
@@ -55,6 +56,8 @@ function App() {
         </StripeProvider>
       }
     />
+
+    <Route path='/pay-now' element={<PayNow/>}/>
   </Routes>
 
      

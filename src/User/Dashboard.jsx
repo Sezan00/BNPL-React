@@ -81,6 +81,7 @@ export const Dashboard = () => {
           <NavItem icon={<LayoutDashboard size={20}/>} label="Dashboard" active />
           <NavItem icon={<History size={20}/>} label="Installments" />
           <NavItem icon={<CreditCard size={20}/>} label="Add Card" onClick={()=> navigate('/add-card')}/>
+          <NavItem icon={<CreditCard size={20}/>} label="Pay Now" onClick={() => navigate('/pay-now')} />
           <NavItem icon={<CreditCard size={20}/>} label="Pay later" onClick={() => navigate('/merchantlist')} />
           <NavItem icon={<User size={20}/>} label="Profile" />
         </nav>
