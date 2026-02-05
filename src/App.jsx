@@ -18,6 +18,8 @@ import StripeProvider from './Stripe/StripeProvider'
 import AddCard from './Card/AddCard'
 // pay now 
 import PayNow from './Payment/PayNow'
+//payment summery 
+import PaymentSummary from './Payment/PaymentSummary'
 function App() {
   return (
   <Routes>
@@ -58,6 +60,7 @@ function App() {
     />
 
     <Route path='/pay-now' element={<PayNow/>}/>
+    <Route path='/payment-summary' element={<PaymentSummary/>}/>
   </Routes>
 
      

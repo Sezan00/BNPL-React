@@ -7,6 +7,7 @@ import {
     ShieldCheck,
     CalendarClock
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export const PayNow = () => {
     const [phone, setPhone] = useState('');
@@ -14,23 +15,29 @@ export const PayNow = () => {
     const [loading, setLoading] = useState(false);
     const [mode, setMode] = useState('now');
     const [selectedPlan, setSelectedPlan] = useState(null);
-    const [installmentPlans, setInstallmentPlans] = useState(['']);
+    const [installmentPlans, setInstallmentPlans] = useState([]);
+    const [creditLimit, setCreditLimit] = useState(0);
+    const [preview, setPreview] = useState(null);
 
-    useEffect(()=>{
+
+    const navigate = useNavigate();
+    useEffect(() => {
         const fetchInstallments = async () => {
-            try{
+            try {
                 const token = localStorage.getItem('token');
                 const res = await axios.get(`http://localhost:8000/api/installment`,
                     {
-                        headers:{
+                        headers: {
                             Authorization: `Bearer ${token}`,
                             Accept: 'application/json'
                         }
                     }
                 );
-                setInstallmentPlans(res.data.installment);
-                console.log('Installment', res.data.installment);
-            } catch (error){
+                setInstallmentPlans(res.data.installments);
+                setCreditLimit(res.data.credit_limit);
+                console.log('Installment', res.data.installments);
+                console.log('Credit limit', res.data.credit_limit);
+            } catch (error) {
                 console.log('Installment fetch error:', error.response?.data || error.message);
             }
         };
@@ -64,6 +71,27 @@ export const PayNow = () => {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        if (amount && selectedPlan) {
+            const token = localStorage.getItem('token');
+            axios.post('http://localhost:8000/api/paylater/preview', {
+                phone,
+                amount,
+                package_id: selectedPlan.id
+            },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        Accept: 'application/json'
+                    }
+                }
+
+            )
+                .then(res => setPreview(res.data))
+                .catch(err => console.log(err));
+        }
+    }, [phone, amount, selectedPlan]);
 
     return (
         <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
@@ -123,6 +151,7 @@ export const PayNow = () => {
                                     placeholder="01XXXXXXXXX"
                                 />
                             </div>
+
                         </div>
 
                         <div>
@@ -154,27 +183,49 @@ export const PayNow = () => {
 
                 {/* PAY LATER */}
                 {mode === 'later' && (
+                    // phone number for pay later to merchant 
                     <div className="space-y-5">
-                        <div>
-                            <label className="text-xs font-bold text-slate-400 uppercase">
-                                Phone Number
+                        <div>   
+                            <div>
+                                <label className="text-xs font-bold text-slate-400 uppercase">
+                                    Phone Number
+                                </label>
+                                <div className="relative mt-2">
+                                    <Smartphone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                                    <input
+                                        required
+                                        value={phone}
+                                        onChange={(e) => setPhone(e.target.value)}
+                                        className="w-full bg-slate-50 border-2 rounded-2xl py-4 pl-12"
+                                        placeholder="01XXXXXXXXX"
+                                    />
+                                </div>
+
+                            </div>
+                             <label className="text-xs font-bold text-slate-400 uppercase">
+                                Amount
                             </label>
                             <div className="relative mt-2">
-                                <Smartphone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                                <Banknote className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
                                 <input
                                     required
-                                    value={phone}
-                                    onChange={(e) => setPhone(e.target.value)}
-                                    className="w-full bg-slate-50 border-2 rounded-2xl py-4 pl-12"
-                                    placeholder="01XXXXXXXXX"
+                                    type="number"
+                                    value={amount}
+                                    onChange={(e) => setAmount(e.target.value)}
+                                    className="w-full bg-slate-50 border-2 rounded-2xl py-4 pl-12 text-xl font-bold"
+                                    placeholder="0.00"
                                 />
                             </div>
+                            <p className="text-xs text-slate-500 mt-2">
+                                Available Credit: <span className="font-bold">${creditLimit}</span>
+                            </p>
                         </div>
 
                         {installmentPlans.map(plan => (
-                            
+
                             <div
                                 key={plan.id}
+                                value={selectedPlan}
                                 onClick={() => setSelectedPlan(plan)}
                                 className={`p-5 rounded-2xl border cursor-pointer transition
                                 ${selectedPlan?.id === plan.id
@@ -182,10 +233,10 @@ export const PayNow = () => {
                                         : 'border-slate-200 hover:border-indigo-300'
                                     }`}
                             >
-                                
+
                                 <div className="flex items-center gap-3">
                                     <CalendarClock className="text-indigo-600" />
-                                    <h3 className="font-bold">{plan.name} of ${plan.min_amount}</h3>
+                                    <h3 className="font-bold">{plan.name}</h3>
                                 </div>
 
                                 <p className="text-sm text-slate-500 mt-2">
@@ -193,10 +244,36 @@ export const PayNow = () => {
                                 </p>
                             </div>
                         ))}
+                        {preview && (
+                            <div className="mt-5 p-5 border rounded bg-gray-50">
+                                <p><strong>Bussiness Name:</strong> {preview.merchant.merchant_name}</p>
+                                <p><strong>Package:</strong> {preview.package_name}</p>
+                                <p><strong>Interest:</strong> ${preview.interest}</p>
+                                <p><strong>Total Payable:</strong> ${preview.total_payable}</p>
+                                <p><strong>Installments:</strong></p>
+                                <ul className="list-disc ml-5">
+                                    {preview.installments.map(i => (
+                                        <li key={i.installment_no}>
+                                            #{i.installment_no}: ${i.amount} due {i.due_date}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
 
                         <button
                             disabled={!selectedPlan}
                             className="w-full bg-indigo-600 text-white py-4 rounded-2xl font-bold disabled:bg-slate-300"
+                            onClick={() => {
+                                navigate('/payment-summary', {
+                                    state: {
+                                        amount,
+                                        phone,
+                                        plan: selectedPlan,
+                                        preview
+                                    }
+                                })
+                            }}
                         >
                             Continue with Installment
                         </button>
