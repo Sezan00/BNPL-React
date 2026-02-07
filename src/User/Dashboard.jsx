@@ -134,11 +134,11 @@ export const Dashboard = () => {
               <div className="flex gap-10">
                 <div>
                   <p className="text-indigo-200 text-xs uppercase tracking-wider mb-1 font-semibold">Total Limit</p>
-                  <p className="text-xl font-semibold">৳50,000</p>
+                  <p className="text-xl font-semibold">${user?.credit_limit}</p>
                 </div>
                 <div>
                   <p className="text-indigo-200 text-xs uppercase tracking-wider mb-1 font-semibold">Used Amount</p>
-                  <p className="text-xl font-semibold">৳18,500</p>
+                  <p className="text-xl font-semibold"> {user?.credit_limit ? `$${user.credit_limit}` : "No used amount"} </p>
                 </div>
               </div>
             </div>

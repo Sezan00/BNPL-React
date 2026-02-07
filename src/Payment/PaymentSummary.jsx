@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { 
     CheckCircle, 
@@ -11,6 +11,7 @@ import {
     ReceiptText,
     ArrowRight
 } from 'lucide-react';
+import axios from 'axios';
 
 const PaymentSummary = () => {
     const location = useLocation();
@@ -26,6 +27,32 @@ const PaymentSummary = () => {
                 <p className="text-slate-500">No payment data available.</p>
             </div>
         );
+    }
+
+    const handleSubmit = async () => {
+        try{
+           const token = localStorage.getItem('token');
+           const res = await axios.post('http://localhost:8000/api/paylater/confirm', {
+            phone,
+            amount,
+            package_id: plan.id
+           },
+           {
+             headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: 'application/json'
+            }
+            
+           }
+        
+        )
+          alert('Payment successful! Installment created.');
+        } catch(err){
+              console.error(err.response?.data || err.message);
+             alert('Payment failed!');
+        }
+      
+
     }
 
     return (
@@ -81,7 +108,7 @@ const PaymentSummary = () => {
                         </div>
 
                         {/* Amount Breakdown Card */}
-                        <div className="bg-indigo-50/50 rounded-[2rem] p-6 border border-indigo-100 mb-8">
+                        <div className="bg-indigo-50/50 rounded-4xl p-6 border border-indigo-100 mb-8">
                             <h3 className="text-sm font-bold text-indigo-900 mb-4 flex items-center gap-2">
                                 <CreditCard size={16} /> Cost Breakdown
                             </h3>
@@ -109,7 +136,7 @@ const PaymentSummary = () => {
                                     <div key={i.installment_no} className="flex items-center gap-4 group">
                                         <div className="flex flex-col items-center">
                                             <div className={`w-3 h-3 rounded-full ${idx === 0 ? 'bg-indigo-600' : 'bg-slate-300'}`}></div>
-                                            {idx !== preview.installments.length - 1 && <div className="w-[2px] h-10 bg-slate-100"></div>}
+                                            {idx !== preview.installments.length - 1 && <div className="w-0.5 h-10 bg-slate-100"></div>}
                                         </div>
                                         <div className="flex-1 bg-white border border-slate-100 p-4 rounded-2xl flex justify-between items-center group-hover:border-indigo-200 transition">
                                             <div>
@@ -128,7 +155,9 @@ const PaymentSummary = () => {
                         </div>
 
                         {/* Action Button */}
-                        <button className="w-full bg-indigo-600 text-white py-5 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-slate-900 transition-all shadow-xl shadow-indigo-100 active:scale-95">
+                        <button
+                            onClick={handleSubmit}
+                        className="w-full bg-indigo-600 text-white py-5 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-slate-900 transition-all shadow-xl shadow-indigo-100 active:scale-95">
                             Confirm & Complete Payment
                             <ArrowRight size={20} />
                         </button>

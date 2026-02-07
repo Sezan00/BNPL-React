@@ -72,6 +72,8 @@ export const PayNow = () => {
         }
     };
 
+
+    // here is use effect post api cuz using state update api 
     useEffect(() => {
         if (amount && selectedPlan) {
             const token = localStorage.getItem('token');
