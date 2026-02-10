@@ -66,6 +66,9 @@ export const Dashboard = () => {
     }
   };
 
+  console.log('aa', user?.used_credit);
+
+
   return (
     <div className="min-h-screen bg-[#F8F9FD] flex font-sans text-gray-900">
       {/* Sidebar */}
@@ -83,6 +86,7 @@ export const Dashboard = () => {
           <NavItem icon={<CreditCard size={20}/>} label="Add Card" onClick={()=> navigate('/add-card')}/>
           <NavItem icon={<CreditCard size={20}/>} label="Pay Now" onClick={() => navigate('/pay-now')} />
           <NavItem icon={<CreditCard size={20}/>} label="Pay later" onClick={() => navigate('/merchantlist')} />
+          <NavItem icon={<CreditCard size={20}/>} label="Installment" onClick={() => navigate('/installment')} />
           <NavItem icon={<User size={20}/>} label="Profile" />
         </nav>
 
@@ -138,7 +142,7 @@ export const Dashboard = () => {
                 </div>
                 <div>
                   <p className="text-indigo-200 text-xs uppercase tracking-wider mb-1 font-semibold">Used Amount</p>
-                  <p className="text-xl font-semibold"> {user?.credit_limit ? `$${user.credit_limit}` : "No used amount"} </p>
+                  <p className="text-xl font-semibold"> {user?.used_credit} </p>
                 </div>
               </div>
             </div>

@@ -20,6 +20,10 @@ import AddCard from './Card/AddCard'
 import PayNow from './Payment/PayNow'
 //payment summery 
 import PaymentSummary from './Payment/PaymentSummary'
+import Installment from './Payment/Installment'
+
+//single installment paid
+import SingleInstallmentPaid from './Payment/SingleInstallmentPaid'
 function App() {
   return (
   <Routes>
@@ -61,6 +65,8 @@ function App() {
 
     <Route path='/pay-now' element={<PayNow/>}/>
     <Route path='/payment-summary' element={<PaymentSummary/>}/>
+    <Route path='/installment' element={<Installment/>}/>
+    <Route path='/single-installment/:schedule_id' element={<SingleInstallmentPaid/>}/>
   </Routes>
 
      

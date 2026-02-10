@@ -247,20 +247,94 @@ export const PayNow = () => {
                             </div>
                         ))}
                         {preview && (
-                            <div className="mt-5 p-5 border rounded bg-gray-50">
-                                <p><strong>Bussiness Name:</strong> {preview.merchant.merchant_name}</p>
-                                <p><strong>Package:</strong> {preview.package_name}</p>
-                                <p><strong>Interest:</strong> ${preview.interest}</p>
-                                <p><strong>Total Payable:</strong> ${preview.total_payable}</p>
-                                <p><strong>Installments:</strong></p>
-                                <ul className="list-disc ml-5">
-                                    {preview.installments.map(i => (
-                                        <li key={i.installment_no}>
-                                            #{i.installment_no}: ${i.amount} due {i.due_date}
-                                        </li>
-                                    ))}
-                                </ul>
+                           <div className="mt-8 relative overflow-hidden bg-white border border-indigo-50 rounded-[2rem] shadow-2xl shadow-indigo-100/50 transition-all duration-500 hover:shadow-indigo-200/50">
+        
+        {/* Top Accent Bar */}
+        <div className="h-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600" />
+
+        <div className="p-6">
+            {/* Header: Title & Status */}
+            <div className="flex justify-between items-center mb-6">
+                <div>
+                    <h3 className="text-xl font-black text-slate-800 tracking-tight">Payment Plan</h3>
+                    <p className="text-xs font-medium text-slate-400">Review your installment details</p>
+                </div>
+                <div className="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border border-emerald-100">
+                    Verified Plan
+                </div>
+            </div>
+
+            {/* Merchant Info Card */}
+            <div className="bg-slate-50 rounded-2xl p-4 mb-6 flex items-center justify-between border border-slate-100">
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center text-indigo-600 border border-slate-100">
+                        <ShieldCheck size={20} />
+                    </div>
+                    <div>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase leading-none mb-1">Merchant</p>
+                        <p className="font-bold text-slate-700">{preview.merchant.merchant_name}</p>
+                    </div>
+                </div>
+                <div className="text-right">
+                    <p className="text-[10px] font-bold text-slate-400 uppercase leading-none mb-1">Package</p>
+                    <p className="font-bold text-indigo-600">{preview.package_name}</p>
+                </div>
+            </div>
+
+            {/* Financial Summary Grid */}
+            <div className="grid grid-cols-2 gap-3 mb-8">
+                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                    <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">Interest Fee</p>
+                    <p className="text-xl font-black text-slate-800">${preview.interest}</p>
+                </div>
+                <div className="p-4 rounded-2xl bg-indigo-600 shadow-lg shadow-indigo-200">
+                    <p className="text-[10px] font-bold text-indigo-200 uppercase mb-1">Total Payable</p>
+                    <p className="text-xl font-black text-white">${preview.total_payable}</p>
+                </div>
+            </div>
+
+            {/* Installments Timeline */}
+            <div className="space-y-1">
+                <p className="text-[10px] font-bold text-slate-400 uppercase mb-4 tracking-widest flex items-center gap-2">
+                    <CalendarClock size={12} /> Payment Schedule
+                </p>
+                
+                <div className="space-y-4 relative before:absolute before:left-[15px] before:top-2 before:bottom-2 before:w-[2px] before:bg-slate-100">
+                    {preview.installments.map((i, index) => (
+                        <div key={i.installment_no} className="relative pl-10 group">
+                            {/* Dot on Timeline */}
+                            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full border-4 border-white bg-slate-100 group-hover:bg-indigo-600 group-hover:scale-110 transition-all duration-300 flex items-center justify-center z-10 shadow-sm">
+                                <span className="text-[10px] font-bold text-slate-500 group-hover:text-white">
+                                    {i.installment_no}
+                                </span>
                             </div>
+                            
+                            {/* Installment Content */}
+                            <div className="flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
+                                <div>
+                                    <p className="text-sm font-bold text-slate-700">Installment #{i.installment_no}</p>
+                                    <p className="text-[11px] font-medium text-slate-400">{i.due_date}</p>
+                                </div>
+                                <div className="text-right">
+                                    <p className="font-black text-slate-800">${i.amount}</p>
+                                    <p className="text-[9px] font-bold text-emerald-500 uppercase tracking-tighter">Due Soon</p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+
+        {/* Bottom Decorative Element */}
+        <div className="bg-slate-50 p-4 flex justify-center border-t border-slate-100">
+            <div className="flex gap-1">
+                {[...Array(12)].map((_, i) => (
+                    <div key={i} className="w-1 h-1 rounded-full bg-slate-200" />
+                ))}
+            </div>
+        </div>
+    </div>
                         )}
 
                         <button

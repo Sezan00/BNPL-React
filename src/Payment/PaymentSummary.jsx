@@ -12,6 +12,7 @@ import {
     ArrowRight
 } from 'lucide-react';
 import axios from 'axios';
+import { CardElement } from '@stripe/react-stripe-js';
 
 const PaymentSummary = () => {
     const location = useLocation();
@@ -43,9 +44,12 @@ const PaymentSummary = () => {
                 Accept: 'application/json'
             }
             
-           }
-        
-        )
+           });
+           const clientSecret = data.client_secret;
+            const cardElement = elements.getElement(CardElement);
+             const { paymentIntent, error } = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: { card: cardElement }
+        });
           alert('Payment successful! Installment created.');
         } catch(err){
               console.error(err.response?.data || err.message);
