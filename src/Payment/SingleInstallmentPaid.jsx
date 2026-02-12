@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const SingleInstallmentPaid = () => {
   const { state } = useLocation();
   const installment = state?.installments;
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(false);
+  const [paid, setPaid] = useState(installment?.status === "paid");
+  const [error, setError] = useState("");
+  console.log('installment', installment);
   if (!installment) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-[#F8F9FB] font-sans">
@@ -17,6 +20,39 @@ const SingleInstallmentPaid = () => {
   }
 
   const isPaid = installment.status === "paid";
+
+   const handlePayment = async () => {
+    if (paid) return;
+
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await fetch("http://localhost:8000/api/installments/pay-single", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          installment_schedule_id: installment.schedule_id,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        setPaid(true);
+        alert("Installment paid successfully!");
+      } else {
+        setError(data.error || "Payment failed");
+      }
+    } catch (err) {
+      setError(err.message || "Payment error");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#F0F2F5] flex items-center justify-center p-4 font-sans antialiased text-[#1A1C21]">
@@ -90,7 +126,7 @@ const SingleInstallmentPaid = () => {
              </div>
 
              {!isPaid ? (
-               <button className="group relative w-full h-20 bg-[#1A1C21] text-white rounded-[28px] font-bold text-lg overflow-hidden transition-all hover:shadow-[0_20px_40px_rgba(0,0,0,0.2)] active:scale-95">
+               <button onClick={handlePayment} className="group relative w-full h-20 bg-[#1A1C21] text-white rounded-[28px] font-bold text-lg overflow-hidden transition-all hover:shadow-[0_20px_40px_rgba(0,0,0,0.2)] active:scale-95">
                  <div className="absolute inset-0 bg-linear-to-r from-indigo-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                  <span className="relative z-10 flex items-center justify-center gap-3">
                    Confirm Payment

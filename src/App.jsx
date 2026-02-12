@@ -24,6 +24,9 @@ import Installment from './Payment/Installment'
 
 //single installment paid
 import SingleInstallmentPaid from './Payment/SingleInstallmentPaid'
+
+//pay all installment 
+import PayAllInstallment from './Payment/PayAllInstallment'
 function App() {
   return (
   <Routes>
@@ -67,6 +70,7 @@ function App() {
     <Route path='/payment-summary' element={<PaymentSummary/>}/>
     <Route path='/installment' element={<Installment/>}/>
     <Route path='/single-installment/:schedule_id' element={<SingleInstallmentPaid/>}/>
+    <Route path='/pay-all-installment/:scheduleId' element={<PayAllInstallment/>}/>
   </Routes>
 
      

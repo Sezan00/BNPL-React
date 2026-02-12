@@ -21,6 +21,20 @@ const UserInstallments = () => {
     navigate(`/single-installment/${installments.schedule_id}`, {state:{installments}});
   }
 
+   //all installment clear
+
+      const navigateToPayallInstallment = (inst) => {
+      const firstUnpaidSchedule = inst.schedules.find(
+        sch => sch.status !== "paid"
+      );
+
+      if (!firstUnpaidSchedule) return; 
+      navigate(`/pay-all-installment/${firstUnpaidSchedule.schedule_id}`, {
+        state: { inst, schedule: firstUnpaidSchedule }
+      });
+    };
+
+
   useEffect(() => {
     const fetchInstallments = async () => {
       try {
@@ -132,7 +146,9 @@ const UserInstallments = () => {
                           </>
                         )}
                       </div>
+                      
                     </div>
+                    
                   ))}
                 </div>
               </div>
@@ -142,7 +158,9 @@ const UserInstallments = () => {
                 <div className="flex items-center gap-2 text-slate-400 text-[10px] font-bold uppercase">
                   <AlertCircle size={12} /> Status: {inst.status}
                 </div>
-                <button className="text-[10px] font-black text-indigo-600 hover:underline flex items-center gap-1 uppercase tracking-widest">
+                <button
+                 onClick={()=> navigateToPayallInstallment(inst)}
+                className="text-[10px] font-black text-indigo-600 hover:underline flex items-center gap-1 uppercase tracking-widest">
                   View Full Details <ArrowRight size={12} />
                 </button>
               </div>
