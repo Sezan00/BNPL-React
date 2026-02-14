@@ -6,13 +6,13 @@ export const PayAllInstallment = () => {
   const [summary, setSummary] = useState(null);
   const { state } = useLocation();
   const installment = state?.inst;
-  const [paid, setPaid] = useState(installment?.status?.toLowerCase() === "paid");
+  const [paid, setPaid] = useState(installment?.status?.toLowerCase() === "paid"); //if it was already all paid then return
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const pendingScheduleIds = installment?.schedules
-    ?.filter(s => s.status !== 'paid')
-    .map(s => s.schedule_id) || [];
+  // const pendingScheduleIds = installment?.schedules
+  //   ?.filter(s => s.status !== 'paid')
+  //   .map(s => s.schedule_id) || [];
 
   const installmentID = installment?.installment_id;
 
