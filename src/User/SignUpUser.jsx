@@ -149,11 +149,14 @@ export const SignUpUser = () => {
                     {/* Footer */}
                     <p className="text-center text-sm text-gray-500 mt-6">
                         Already have an account?{" "}
-                        <span className="text-indigo-600 font-medium cursor-pointer">
+                        <span
+                            onClick={() => navigate('/user-login')} 
+                            className="text-indigo-600 font-medium cursor-pointer"
+                        >
                             Login
                         </span>
-                     
                     </p>
+
                 </div>
             </div>
         </>

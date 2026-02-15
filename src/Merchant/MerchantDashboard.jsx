@@ -1,11 +1,52 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const MerchantDashboard = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   console.log(token)
+  const [merchant, setMerchant] = useState(null);
+    const [transactions, setTransaction] = useState([]);
+  
+  // fetch merchant data 
+
+ useEffect(() => {
+    const fetchMerchantData = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const res = await axios.get('http://localhost:8000/api/merchant/profile', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+            setMerchant(res.data);  
+            console.log('merchant data', res.data);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    fetchMerchantData();
+}, []);
+
+//fetch transaction 
+
+ useEffect(()=> {
+    const fetchTransactionData = async () => {
+      const token = localStorage.getItem('token');
+      const res = await axios.get(`http://localhost:8000/api/merchant/transaction`, {
+        headers:{
+          Authorization: `Bearer ${token}`
+        }
+      })
+      setTransaction(res.data.data || []);
+      console.log('Transaction', res.data.data)
+    }
+    fetchTransactionData();
+  }, [])
+
+
  const handleLogout = async () => {
     try{
       const token = localStorage.getItem("token");
@@ -88,7 +129,7 @@ export const MerchantDashboard = () => {
         <div className="grid md:grid-cols-3 gap-6 mb-12">
           <div className="bg-slate-900 rounded-[2.5rem] p-8 text-white shadow-2xl shadow-slate-200">
             <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-2">Total Volume</p>
-            <h2 className="text-4xl font-black mb-6 tracking-tighter">৳84,200</h2>
+            <h2 className="text-4xl font-black mb-6 tracking-tighter">${merchant?.balance}</h2>
             <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
               <div className="h-full bg-indigo-500 w-[75%]"></div>
             </div>
@@ -108,19 +149,35 @@ export const MerchantDashboard = () => {
         </div>
 
         {/* Recent Transactions List */}
-        <div className="bg-white rounded-[2.5rem] border border-gray-50 shadow-sm p-8">
-          <div className="flex justify-between items-center mb-8 px-2">
-             <h3 className="text-xl font-black">Recent Transactions</h3>
-             <span className="text-xs font-black text-gray-400 uppercase tracking-widest cursor-pointer hover:text-indigo-600">Export All</span>
-          </div>
+     <div className="bg-white rounded-[2.5rem] border border-gray-50 shadow-sm p-8">
+      <div className="flex justify-between items-center mb-8 px-2">
+        <h3 className="text-xl font-black">Recent Transactions</h3>
+        <span className="text-xs font-black text-gray-400 uppercase tracking-widest cursor-pointer hover:text-indigo-600">Export All</span>
+      </div>
 
-          <div className="space-y-1">
-            <MerchantRow name="Tanvir Mahtab" date="Today, 04:20 PM" amount="৳12,000" plan="3 Months" />
-            <MerchantRow name="Sadiya Afrin" date="Yesterday" amount="৳45,500" plan="12 Months" />
-            <MerchantRow name="Asif Mahmud" date="Jan 22, 2026" amount="৳8,200" plan="6 Months" />
-            <MerchantRow name="Ishrat Jahan" date="Jan 20, 2026" amount="৳15,000" plan="3 Months" />
-          </div>
-        </div>
+      <div className="space-y-1">
+        {transactions.length > 0 ? (
+          transactions.map((txn) => (
+            <MerchantRow 
+              key={txn.id}
+              name={txn.description || "Unknown"}
+              date={new Date(txn.created_at).toLocaleString("en-GB", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+              amount={`$${txn.amount}`}
+              plan={txn.type === "credit" ? "Credit" : "Debit"} 
+            />
+          ))
+        ) : (
+          <p className="text-sm text-gray-400 font-medium text-center py-4">No transactions found.</p>
+        )}
+      </div>
+    </div>
+
 
       </main>
     </div>

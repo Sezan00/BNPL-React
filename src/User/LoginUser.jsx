@@ -101,7 +101,9 @@ export const LoginUser = () => {
         {/* Footer */}
         <p className="text-center text-sm text-gray-500 mt-6">
           Don’t have an account?{" "}
-          <span className="text-indigo-600 font-medium cursor-pointer">
+          <span
+            onClick={()=>navigate('/user-signup')}
+          className="text-indigo-600 font-medium cursor-pointer">
             Sign up
           </span>
         </p>
