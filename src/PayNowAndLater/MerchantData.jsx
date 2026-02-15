@@ -16,6 +16,7 @@ export const MerchantData = () => {
     const [creditLimit, setCreditLimit] = useState(0);
     const [selectedPlan, setSelectedPlan] = useState(null);
 
+
     useEffect(() => {
         if (!phone) {
             setError("No phone number provided!");
@@ -55,7 +56,11 @@ export const MerchantData = () => {
                 });
                 // Assuming res.data contains installments array and credit_limit
                 setInstallmentPlans(res.data.installments || []);
-                setCreditLimit(res.data.credit_limit || 0);
+                setCreditLimit(res.data.credit_limit ?? 0);
+
+                // if(res.data.message){
+                //     setError(res.data.message);
+                // }
             } catch (error) {
                 console.error('Installment fetch error:', error.response?.data || error.message);
             }
@@ -195,6 +200,7 @@ export const MerchantData = () => {
                 {/* Actions */}
                 <div className="mt-10 space-y-3">
                     <button 
+                        disabled={!amount}
                         onClick={handlePayNow}
                         className="group w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-indigo-200 transform hover:-translate-y-1"
                     >
@@ -203,7 +209,9 @@ export const MerchantData = () => {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                         </svg>
                     </button>
-                    <button
+                    {creditLimit > 0 && (
+                        <button
+                         disabled={!amount || !selectedPlan}
                          onClick={()=> navigate('/installment-data', { state: { merchant, amount, phone, selectedPlan }})}
                         className="group w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-indigo-200 transform hover:-translate-y-1"
                     >
@@ -211,7 +219,9 @@ export const MerchantData = () => {
                         <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                         </svg>
-                    </button>
+                    </button>    
+                    )}
+                    
 
                     <button
                         onClick={() => navigate(-1)}
