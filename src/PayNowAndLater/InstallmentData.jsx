@@ -46,7 +46,9 @@ export const InstallmentData = () => {
             const cardElement = elements.getElement(CardElement);
              const { paymentIntent, error } = await stripe.confirmCardPayment(clientSecret, {
             payment_method: { card: cardElement }
+          
         });
+          navigate('/user-dashboard');
           alert('Payment successful! Installment created.');
         } catch(err){
               console.error(err.response?.data || err.message);

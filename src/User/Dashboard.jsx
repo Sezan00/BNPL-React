@@ -10,7 +10,11 @@ import {
   Wallet, 
   ArrowUpRight, 
   Bell,
-  Search
+  Search,
+  Store,
+  List,
+  Calendar,
+  Clock
 } from 'lucide-react';
 
 export const Dashboard = () => {
@@ -99,12 +103,11 @@ export const Dashboard = () => {
 
         <nav className="flex-1 space-y-2">
           <NavItem icon={<LayoutDashboard size={20}/>} label="Dashboard" active />
-          <NavItem icon={<History size={20}/>} label="Installments" />
           <NavItem icon={<CreditCard size={20}/>} label="Add Card" onClick={()=> navigate('/add-card')}/>
-          <NavItem icon={<CreditCard size={20}/>} label="BNPL" onClick={()=> navigate('/pay')}/>
-          <NavItem icon={<CreditCard size={20}/>} label="Pay Now" onClick={() => navigate('/pay-now')} />
-          <NavItem icon={<CreditCard size={20}/>} label="Merchant" onClick={() => navigate('/merchantlist')} />
-          <NavItem icon={<CreditCard size={20}/>} label="Installment" onClick={() => navigate('/installment')} />
+          <NavItem icon={<Store  size={20}/>} label="Merchant Payment" onClick={()=> navigate('/pay')}/>
+          <NavItem icon={<Wallet  size={20}/>} label="Pay Now" onClick={() => navigate('/pay-now')} />
+          <NavItem icon={<List size={20}/>} label="Merchant List" onClick={() => navigate('/merchantlist')} />
+          <NavItem icon={<History size={20}/>} label="Installment" onClick={() => navigate('/installment')} />
           <NavItem icon={<User size={20}/>} label="Profile" />
         </nav>
 
