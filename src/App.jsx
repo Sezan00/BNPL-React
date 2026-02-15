@@ -27,6 +27,12 @@ import SingleInstallmentPaid from './Payment/SingleInstallmentPaid'
 
 //pay all installment 
 import PayAllInstallment from './Payment/PayAllInstallment'
+//
+import PayNowOrLater from './PayNowAndLater/PayNowOrLater'
+//merchant data
+import MerchantData from './PayNowAndLater/MerchantData'
+import Amount  from './PayNowAndLater/Amount'
+import InstallmentData from './PayNowAndLater/InstallmentData'
 function App() {
   return (
   <Routes>
@@ -65,8 +71,11 @@ function App() {
         </StripeProvider>
       }
     />
-
+    <Route path='/pay' element={<PayNowOrLater/>}/>
+    <Route path='/amount' element={<Amount/>}/>
     <Route path='/pay-now' element={<PayNow/>}/>
+    <Route path='/installment-data' element={<InstallmentData/>}/>
+    <Route path='/merchant-data' element={<MerchantData/>}/>
     <Route path='/payment-summary' element={<PaymentSummary/>}/>
     <Route path='/installment' element={<Installment/>}/>
     <Route path='/single-installment/:schedule_id' element={<SingleInstallmentPaid/>}/>

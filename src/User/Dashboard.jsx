@@ -15,6 +15,7 @@ import {
 
 export const Dashboard = () => {
   const [user, setUser] = useState(null);
+  const [transactions, setTransaction] = useState([]);
   const navigate = useNavigate();
 
   const token = localStorage.getItem('token');
@@ -47,6 +48,22 @@ export const Dashboard = () => {
       }
     }
     fetchData();
+  }, [])
+
+  // Recent transaction data 
+
+  useEffect(()=> {
+    const fetchTransactionData = async () => {
+      const token = localStorage.getItem('token');
+      const res = await axios.get(`http://localhost:8000/api/recent/transaction`, {
+        headers:{
+          Authorization: `Bearer ${token}`
+        }
+      })
+      setTransaction(res.data.data)
+      console.log('Transaction', res.data.data)
+    }
+    fetchTransactionData();
   }, [])
 
 //   useEffect(() => {
@@ -84,8 +101,9 @@ export const Dashboard = () => {
           <NavItem icon={<LayoutDashboard size={20}/>} label="Dashboard" active />
           <NavItem icon={<History size={20}/>} label="Installments" />
           <NavItem icon={<CreditCard size={20}/>} label="Add Card" onClick={()=> navigate('/add-card')}/>
+          <NavItem icon={<CreditCard size={20}/>} label="BNPL" onClick={()=> navigate('/pay')}/>
           <NavItem icon={<CreditCard size={20}/>} label="Pay Now" onClick={() => navigate('/pay-now')} />
-          <NavItem icon={<CreditCard size={20}/>} label="Pay later" onClick={() => navigate('/merchantlist')} />
+          <NavItem icon={<CreditCard size={20}/>} label="Merchant" onClick={() => navigate('/merchantlist')} />
           <NavItem icon={<CreditCard size={20}/>} label="Installment" onClick={() => navigate('/installment')} />
           <NavItem icon={<User size={20}/>} label="Profile" />
         </nav>
@@ -164,18 +182,65 @@ export const Dashboard = () => {
           </div>
 
           {/* Table / Transactions */}
-          <div className="col-span-12 bg-white border border-gray-100 border-radius: 2remp-8 shadow-sm mt-2">
-            <div className="flex items-center justify-between mb-8">
-              <h3 className="text-xl font-bold text-gray-800">Recent Transactions</h3>
-              <button className="text-indigo-600 font-semibold text-sm hover:underline">See all transactions</button>
-            </div>
+          <div className="col-span-12 bg-white border border-gray-100 rounded-2xl p-8 shadow-sm mt-4">
+  
+  <div className="flex items-center justify-between mb-6">
+    <h3 className="text-xl font-bold text-gray-800">
+      Recent Transactions
+    </h3>
+    <button className="text-indigo-600 font-semibold text-sm hover:underline">
+      See all
+    </button>
+  </div>
 
-            <div className="space-y-6">
-              <TransactionItem name="Daraz" date="12 Jan, 2024" amount="12,000" status="Pending" color="amber" />
-              <TransactionItem name="Pickaboo" date="05 Jan, 2024" amount="6,500" status="Success" color="green" />
-              <TransactionItem name="Ajkerdeal" date="20 Dec, 2023" amount="8,000" status="Partial" color="indigo" />
-            </div>
+  <div className="space-y-4">
+    {transactions.map((transaction) => (
+      <div
+        key={transaction.id}
+        className="flex items-center justify-between p-4 rounded-xl hover:bg-gray-50 transition"
+      >
+        {/* Left */}
+        <div className="flex items-center gap-4">
+          <div
+            className={`w-12 h-12 flex items-center justify-center rounded-full 
+            ${transaction.type === "debit"
+              ? "bg-red-100 text-red-600"
+              : "bg-green-100 text-green-600"}`}
+          >
+            {transaction.type === "debit" ? "-" : "+"}
           </div>
+
+          <div>
+            <p className="font-semibold text-gray-800">
+              {transaction.description || "Transaction"}
+            </p>
+            <p className="text-sm text-gray-500">
+              {new Date(transaction.created_at).toLocaleDateString()}
+            </p>
+          </div>
+        </div>
+
+        {/* Right */}
+        <div className="text-right">
+          <p
+            className={`font-bold ${
+              transaction.type === "debit"
+                ? "text-red-600"
+                : "text-green-600"
+            }`}
+          >
+            ${transaction.amount}
+          </p>
+
+          <p className="text-xs text-gray-400">
+            Balance: ${transaction.balance_after}
+          </p>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
 
         </div>
       </main>

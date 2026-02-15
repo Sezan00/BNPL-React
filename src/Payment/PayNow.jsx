@@ -111,7 +111,7 @@ export const PayNow = () => {
                 </div>
 
                 {/* Toggle */}
-                <div className="flex bg-slate-100 rounded-2xl p-1 mb-8">
+                {/* <div className="flex bg-slate-100 rounded-2xl p-1 mb-8">
                     <button
                         onClick={() => setMode('now')}
                         className={`flex-1 py-3 rounded-xl font-bold transition
@@ -133,7 +133,7 @@ export const PayNow = () => {
                     >
                         Pay Later
                     </button>
-                </div>
+                </div> */}
 
                 {/* PAY NOW */}
                 {mode === 'now' && (
@@ -247,10 +247,10 @@ export const PayNow = () => {
                             </div>
                         ))}
                         {preview && (
-                           <div className="mt-8 relative overflow-hidden bg-white border border-indigo-50 rounded-[2rem] shadow-2xl shadow-indigo-100/50 transition-all duration-500 hover:shadow-indigo-200/50">
+                           <div className="mt-8 relative overflow-hidden bg-white border border-indigo-50 rounded-4xl shadow-2xl shadow-indigo-100/50 transition-all duration-500 hover:shadow-indigo-200/50">
         
         {/* Top Accent Bar */}
-        <div className="h-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600" />
+        <div className="h-2 bg-linear-to-r from-indigo-500 via-purple-500 to-indigo-600" />
 
         <div className="p-6">
             {/* Header: Title & Status */}
@@ -299,7 +299,7 @@ export const PayNow = () => {
                     <CalendarClock size={12} /> Payment Schedule
                 </p>
                 
-                <div className="space-y-4 relative before:absolute before:left-[15px] before:top-2 before:bottom-2 before:w-[2px] before:bg-slate-100">
+                <div className="space-y-4 relative before:absolute before:left-3.75 before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-100">
                     {preview.installments.map((i, index) => (
                         <div key={i.installment_no} className="relative pl-10 group">
                             {/* Dot on Timeline */}
