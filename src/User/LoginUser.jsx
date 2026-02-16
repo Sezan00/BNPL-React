@@ -10,7 +10,7 @@ export const LoginUser = () => {
   });
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -18,15 +18,21 @@ export const LoginUser = () => {
 
   const handleLogin = async () => {
     setLoading(true);
-    setError("");
+    setErrors({});
     try {
       const res = await axios.post("http://localhost:8000/api/login", form);
       const token = res.data.token;
       localStorage.setItem("token", token);
 
       navigate("/user-dashboard"); // login success → dashboard
-    } catch (err) {
-      setError(err.response?.data?.message || "Login failed");
+    } catch (error) {
+      if (error.response?.status === 422) {
+        setErrors(error.response.data.errors)
+      } else {
+        setErrors({
+          general: ["Something went wrong. Please try again."]
+        });
+      }
     } finally {
       setLoading(false);
     }
@@ -40,11 +46,15 @@ export const LoginUser = () => {
           <h1 className="text-3xl font-bold text-gray-800">Welcome Back</h1>
           <p className="text-gray-500 mt-2">Login to continue using BNPL</p>
         </div>
+        {errors.general && (
+          <div className="bg-red-100 text-red-600 p-2 rounded mb-4 text-sm">
+            {errors.general[0]}
+          </div>
+        )}
+
 
         {/* Form */}
         <div className="space-y-5">
-          {error && <p className="text-red-500 text-sm">{error}</p>}
-
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Email or Phone
@@ -57,6 +67,13 @@ export const LoginUser = () => {
               placeholder="email or phone number"
               className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.email[0]}
+              </p>
+            )}
+
+
           </div>
 
           <div>
@@ -71,6 +88,12 @@ export const LoginUser = () => {
               placeholder="••••••••"
               className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.password[0]}
+              </p>
+            )}
+
           </div>
 
           <div className="flex items-center justify-between text-sm">
@@ -90,9 +113,8 @@ export const LoginUser = () => {
           <button
             onClick={handleLogin}
             disabled={loading}
-            className={`w-full ${
-              loading ? "bg-gray-400" : "bg-indigo-600 hover:bg-indigo-700"
-            } text-white py-3 rounded-lg font-semibold transition`}
+            className={`w-full ${loading ? "bg-gray-400" : "bg-indigo-600 hover:bg-indigo-700"
+              } text-white py-3 rounded-lg font-semibold transition`}
           >
             {loading ? "Logging in..." : "Login"}
           </button>
@@ -102,8 +124,8 @@ export const LoginUser = () => {
         <p className="text-center text-sm text-gray-500 mt-6">
           Don’t have an account?{" "}
           <span
-            onClick={()=>navigate('/user-signup')}
-          className="text-indigo-600 font-medium cursor-pointer">
+            onClick={() => navigate('/user-signup')}
+            className="text-indigo-600 font-medium cursor-pointer">
             Sign up
           </span>
         </p>
