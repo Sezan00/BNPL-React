@@ -5,38 +5,37 @@ import { useNavigate } from 'react-router-dom';
 export const MerchantDashboard = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  console.log(token)
   const [merchant, setMerchant] = useState(null);
-    const [transactions, setTransaction] = useState([]);
-  
+  const [transactions, setTransaction] = useState([]);
+
   // fetch merchant data 
 
- useEffect(() => {
+  useEffect(() => {
     const fetchMerchantData = async () => {
-        try {
-            const token = localStorage.getItem('token');
-            const res = await axios.get('http://localhost:8000/api/merchant/profile', {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
-            });
-            setMerchant(res.data);  
-            console.log('merchant data', res.data);
-        } catch (err) {
-            console.log(err);
-        }
+      try {
+        const token = localStorage.getItem('token');
+        const res = await axios.get('http://localhost:8000/api/merchant/profile', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        });
+        setMerchant(res.data);
+        console.log('merchant data', res.data);
+      } catch (err) {
+        console.log(err);
+      }
     }
 
     fetchMerchantData();
-}, []);
+  }, []);
 
-//fetch transaction 
+  //fetch transaction 
 
- useEffect(()=> {
+  useEffect(() => {
     const fetchTransactionData = async () => {
       const token = localStorage.getItem('token');
       const res = await axios.get(`http://localhost:8000/api/merchant/transaction`, {
-        headers:{
+        headers: {
           Authorization: `Bearer ${token}`
         }
       })
@@ -47,13 +46,13 @@ export const MerchantDashboard = () => {
   }, [])
 
 
- const handleLogout = async () => {
-    try{
+  const handleLogout = async () => {
+    try {
       const token = localStorage.getItem("token");
-       await axios.post(`http://localhost:8000/api/merchant/logout`, 
+      await axios.post(`http://localhost:8000/api/merchant/logout`,
         {},
         {
-          headers:{
+          headers: {
             Authorization: `Bearer ${token}`,
           },
         }
@@ -61,7 +60,7 @@ export const MerchantDashboard = () => {
       localStorage.removeItem('token');
       navigate('/merchant-login');
 
-    }catch(err){
+    } catch (err) {
       console.log('Can not logout', err)
     }
   }
@@ -69,7 +68,7 @@ export const MerchantDashboard = () => {
 
   return (
     <div className="min-h-screen bg-[#fcfcfd] flex font-sans text-slate-900">
-      
+
       {/* SIDEBAR */}
       <aside className="w-64 bg-white border-r border-gray-100 hidden lg:flex flex-col p-8">
         <div className="mb-12">
@@ -85,9 +84,9 @@ export const MerchantDashboard = () => {
             <p className="text-sm font-semibold text-gray-500 hover:text-gray-900 cursor-pointer transition mb-3">Settings</p>
           </div>
 
-            {/* logout  */}
+          {/* logout  */}
           <div className="pt-2">
-            <button 
+            <button
               onClick={handleLogout}
               className="text-sm font-black text-red-500 hover:text-red-700 transition uppercase tracking-widest"
             >
@@ -106,7 +105,7 @@ export const MerchantDashboard = () => {
 
       {/* MAIN CONTENT */}
       <main className="flex-1 p-6 md:p-12 max-w-6xl mx-auto w-full">
-        
+
         {/* Top Header */}
         <div className="flex justify-between items-center mb-12">
           <div>
@@ -114,14 +113,24 @@ export const MerchantDashboard = () => {
             <p className="text-sm text-gray-400 font-medium">Monitoring your shop's BNPL performance.</p>
           </div>
           <div className="flex items-center gap-4">
-             <button className="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold text-sm shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition">
-                Create Invoice
-             </button>
-             <button 
+            <button className="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold text-sm shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition">
+              Create Invoice
+            </button>
+            <button
+              onClick={()=>navigate('/settlement-accounts')}
+            className="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold text-sm shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition">
+              Bank Accounts
+            </button>
+            <button 
+              onClick={()=>navigate('/bank-add')}
+            className="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold text-sm shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition">
+              Add Bank Account
+            </button>
+            <button
               onClick={handleLogout}
-             className="bg-red-600 text-white px-6 py-3 rounded-2xl font-bold text-sm shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition">
-                Logout
-             </button>
+              className="bg-red-600 text-white px-6 py-3 rounded-2xl font-bold text-sm shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition">
+              Logout
+            </button>
           </div>
         </div>
 
@@ -149,34 +158,31 @@ export const MerchantDashboard = () => {
         </div>
 
         {/* Recent Transactions List */}
-     <div className="bg-white rounded-[2.5rem] border border-gray-50 shadow-sm p-8">
-      <div className="flex justify-between items-center mb-8 px-2">
-        <h3 className="text-xl font-black">Recent Transactions</h3>
-        <span className="text-xs font-black text-gray-400 uppercase tracking-widest cursor-pointer hover:text-indigo-600">Export All</span>
-      </div>
+        <div className="bg-white rounded-[2.5rem] border border-gray-50 shadow-sm p-8">
+          <div className="flex justify-between items-center mb-8 px-2">
+            <h3 className="text-xl font-black">Recent Transactions</h3>
+            <span className="text-xs font-black text-gray-400 uppercase tracking-widest cursor-pointer hover:text-indigo-600">Export All</span>
+          </div>
 
-      <div className="space-y-1">
-        {transactions.length > 0 ? (
-          transactions.map((txn) => (
-            <MerchantRow 
-              key={txn.id}
-              name={txn.description || "Unknown"}
-              date={new Date(txn.created_at).toLocaleString("en-GB", {
-                day: "2-digit",
-                month: "short",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-              amount={`$${txn.amount}`}
-              plan={txn.type === "credit" ? "Credit" : "Debit"} 
-            />
-          ))
-        ) : (
-          <p className="text-sm text-gray-400 font-medium text-center py-4">No transactions found.</p>
-        )}
-      </div>
-    </div>
+          <div className="space-y-1">
+            {transactions.map((txn) => (
+              <MerchantRow
+                key={txn.id}
+                name={txn.user ? txn.user.name : "Unknown"}
+                date={new Date(txn.created_at).toLocaleString("en-GB", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+                amount={`$${txn.amount}`}
+                plan={txn.type === "credit" ? "Credit" : "Debit"}
+              />
+            ))
+            }
+          </div>
+        </div>
 
 
       </main>

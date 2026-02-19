@@ -33,6 +33,9 @@ import PayNowOrLater from './PayNowAndLater/PayNowOrLater'
 import MerchantData from './PayNowAndLater/MerchantData'
 import Amount  from './PayNowAndLater/Amount'
 import InstallmentData from './PayNowAndLater/InstallmentData'
+import BankAdd from './Merchant/BankAdd'
+import SettlementAccounts from './Merchant/SettlementAccounts'
+
 function App() {
   return (
   <Routes>
@@ -80,6 +83,8 @@ function App() {
     <Route path='/installment' element={<Installment/>}/>
     <Route path='/single-installment/:schedule_id' element={<SingleInstallmentPaid/>}/>
     <Route path='/pay-all-installment/:scheduleId' element={<PayAllInstallment/>}/>
+    <Route path='/bank-add' element={<BankAdd/>}/>
+    <Route path='/settlement-accounts' element={<SettlementAccounts/>}/>
   </Routes>
 
      
