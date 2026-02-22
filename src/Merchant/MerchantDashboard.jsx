@@ -7,7 +7,7 @@ export const MerchantDashboard = () => {
   const token = localStorage.getItem("token");
   const [merchant, setMerchant] = useState(null);
   const [transactions, setTransaction] = useState([]);
-
+  console.log(token)
   // fetch merchant data 
 
   useEffect(() => {
