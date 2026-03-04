@@ -14,7 +14,7 @@ export const MerchantDashboard = () => {
     const fetchMerchantData = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get('http://localhost:8000/api/merchant/profile', {
+        const res = await axios.get('https://bnpl-backend.sezan.xyz/api/api/merchant/profile', {
           headers: {
             Authorization: `Bearer ${token}`,
           }
@@ -34,7 +34,7 @@ export const MerchantDashboard = () => {
   useEffect(() => {
     const fetchTransactionData = async () => {
       const token = localStorage.getItem('token');
-      const res = await axios.get(`http://localhost:8000/api/merchant/transaction`, {
+      const res = await axios.get(`https://bnpl-backend.sezan.xyz/api/api/merchant/transaction`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -49,7 +49,7 @@ export const MerchantDashboard = () => {
   const handleLogout = async () => {
     try {
       const token = localStorage.getItem("token");
-      await axios.post(`http://localhost:8000/api/merchant/logout`,
+      await axios.post(`https://bnpl-backend.sezan.xyz/api/api/merchant/logout`,
         {},
         {
           headers: {

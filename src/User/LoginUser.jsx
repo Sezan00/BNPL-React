@@ -20,7 +20,7 @@ export const LoginUser = () => {
     setLoading(true);
     setErrors({});
     try {
-      const res = await axios.post("http://localhost:8000/api/login", form);
+      const res = await axios.post("https://bnpl-backend.sezan.xyz/api/login", form);
       const token = res.data.token;
       localStorage.setItem("token", token);
 

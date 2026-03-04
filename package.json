@@ -1,5 +1,6 @@
 {
   "name": "bmpl-react",
+  "homepage": "https://bnpl.sezan.xyz/",
   "private": true,
   "version": "0.0.0",
   "type": "module",

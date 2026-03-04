@@ -26,7 +26,7 @@ const AddCard = () => {
     setLoading(true);
 
     try {
-      const res = await axios.get("http://localhost:8000/api/card/setup-intent", {
+      const res = await axios.get("https://bnpl-backend.sezan.xyz/api/api/card/setup-intent", {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
       });
 
@@ -42,7 +42,7 @@ const AddCard = () => {
         alert(result.error.message);
       } else {
         await axios.post(
-          "http://localhost:8000/api/card/store",
+          "https://bnpl-backend.sezan.xyz/api/api/card/store",
           {
             payment_method: result.setupIntent.payment_method,
           },

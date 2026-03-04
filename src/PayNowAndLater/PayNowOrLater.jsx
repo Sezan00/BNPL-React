@@ -14,7 +14,7 @@ export const PayNowOrLater = () => {
         try {
             const token = localStorage.getItem('token');
 
-            const res = await axios.get(`http://localhost:8000/api/get-merchant/${phone}`, {
+            const res = await axios.get(`https://bnpl-backend.sezan.xyz/api/api/get-merchant/${phone}`, {
                 headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' }
             });
 

@@ -27,7 +27,7 @@ export const MerchantData = () => {
         const fetchMerchant = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await axios.get(`http://localhost:8000/api/get-merchant/${phone}`, {
+                const response = await axios.get(`https://bnpl-backend.sezan.xyz/api/api/get-merchant/${phone}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 
@@ -48,7 +48,7 @@ export const MerchantData = () => {
         const fetchInstallments = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const res = await axios.get(`http://localhost:8000/api/installment`, {
+                const res = await axios.get(`https://bnpl-backend.sezan.xyz/api/api/installment`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         Accept: 'application/json'
@@ -75,7 +75,7 @@ export const MerchantData = () => {
         try {
             const token = localStorage.getItem('token');
             const res = await axios.post(
-                'http://localhost:8000/api/send-payment',
+                'https://bnpl-backend.sezan.xyz/api/api/send-payment',
                 { phone, amount },
                 {
                     headers: {

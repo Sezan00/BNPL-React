@@ -8,7 +8,7 @@ const SettlementAccounts = () => {
   const navigate = useNavigate();
   const fetchAccounts = async () => {
     try {
-      const res = await axios.get("http://127.0.0.1:8000/api/merchant/settlement-accounts", {
+      const res = await axios.get("https://bnpl-backend.sezan.xyz/api/merchant/settlement-accounts", {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
       });
       setAccounts(res.data);
@@ -20,7 +20,7 @@ const SettlementAccounts = () => {
 
   const handleActivate = async (id) => {
     try {
-      await axios.post(`http://127.0.0.1:8000/api/merchant/settlement-accounts/${id}/activate`, {}, {
+      await axios.post(`https://bnpl-backend.sezan.xyz/api/merchant/settlement-accounts/${id}/activate`, {}, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
       });
       fetchAccounts();
