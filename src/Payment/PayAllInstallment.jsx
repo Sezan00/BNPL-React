@@ -22,7 +22,7 @@ export const PayAllInstallment = () => {
         const token = localStorage.getItem('token');
         if (!installmentID || !token) return;
 
-        const res = await axios.get(`https://bnpl-backend.sezan.xyz/api/api/pending-all-installment/${installmentID}`, {
+        const res = await axios.get(`https://bnpl-backend.sezan.xyz/api/pending-all-installment/${installmentID}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -41,7 +41,7 @@ export const PayAllInstallment = () => {
     setError("");
 
     try {
-      const res = await fetch("https://bnpl-backend.sezan.xyz/api/api/pay-all-installment", {
+      const res = await fetch("https://bnpl-backend.sezan.xyz/api/pay-all-installment", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

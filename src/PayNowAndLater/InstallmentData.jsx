@@ -12,7 +12,7 @@ export const InstallmentData = () => {
     useEffect(() => {
         if (amount && selectedPlan) {
             const token = localStorage.getItem('token');
-            axios.post('https://bnpl-backend.sezan.xyz/api/api/paylater/preview', {
+            axios.post('https://bnpl-backend.sezan.xyz/api/paylater/preview', {
                 phone,
                 amount,
                 package_id: selectedPlan.id
@@ -30,7 +30,7 @@ export const InstallmentData = () => {
     const handleSubmit = async () => {
         try{
            const token = localStorage.getItem('token');
-           const res = await axios.post('https://bnpl-backend.sezan.xyz/api/api/paylater/confirm', {
+           const res = await axios.post('https://bnpl-backend.sezan.xyz/api/paylater/confirm', {
             phone,
             amount,
             package_id: selectedPlan.id

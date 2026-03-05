@@ -18,7 +18,7 @@ export const Amount = () => {
         const fetchInstallments = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const res = await axios.get(`https://bnpl-backend.sezan.xyz/api/api/installment`, {
+                const res = await axios.get(`https://bnpl-backend.sezan.xyz/api/installment`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         Accept: 'application/json'

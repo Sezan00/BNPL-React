@@ -29,7 +29,7 @@ export const Dashboard = () => {
 
   // useEffect(()=>{
   //     const token = localStorage.getItem('token');
-  //     axios.get(`https://bnpl-backend.sezan.xyz/api/api/user-data`, {
+  //     axios.get(`https://bnpl-backend.sezan.xyz/api/user-data`, {
   //       headers:{
   //         Authorization: `Bearer ${token}`,
   //       }
@@ -41,7 +41,7 @@ export const Dashboard = () => {
     const fetchData = async () => {
       try{
         const token = localStorage.getItem('token');
-         const res = await axios.get('https://bnpl-backend.sezan.xyz/api/api/user-data', {
+         const res = await axios.get('https://bnpl-backend.sezan.xyz/api/user-data', {
           headers:{
             Authorization: `Bearer ${token}`
           }
@@ -59,7 +59,7 @@ export const Dashboard = () => {
   useEffect(()=> {
     const fetchTransactionData = async () => {
       const token = localStorage.getItem('token');
-      const res = await axios.get(`https://bnpl-backend.sezan.xyz/api/api/recent/transaction`, {
+      const res = await axios.get(`https://bnpl-backend.sezan.xyz/api/recent/transaction`, {
         headers:{
           Authorization: `Bearer ${token}`
         }
@@ -77,7 +77,7 @@ export const Dashboard = () => {
   const handleLogut = async () => {
     try {
       const token = localStorage.getItem("token");
-      await axios.post(`https://bnpl-backend.sezan.xyz/api/api/logout`, {}, {
+      await axios.post(`https://bnpl-backend.sezan.xyz/api/logout`, {}, {
         headers: { Authorization: `Bearer ${token}` },
       });
       localStorage.removeItem('token');

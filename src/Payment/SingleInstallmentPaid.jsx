@@ -28,7 +28,7 @@ const SingleInstallmentPaid = () => {
     setError("");
 
     try {
-      const res = await fetch("https://bnpl-backend.sezan.xyz/api/api/installments/pay-single", {
+      const res = await fetch("https://bnpl-backend.sezan.xyz/api/installments/pay-single", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

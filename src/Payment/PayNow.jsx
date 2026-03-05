@@ -25,7 +25,7 @@ export const PayNow = () => {
         const fetchInstallments = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const res = await axios.get(`https://bnpl-backend.sezan.xyz/api/api/installment`,
+                const res = await axios.get(`https://bnpl-backend.sezan.xyz/api/installment`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -51,7 +51,7 @@ export const PayNow = () => {
         try {
             const token = localStorage.getItem('token');
             const res = await axios.post(
-                'https://bnpl-backend.sezan.xyz/api/api/send-payment',
+                'https://bnpl-backend.sezan.xyz/api/send-payment',
                 { phone, amount },
                 {
                     headers: {
@@ -77,7 +77,7 @@ export const PayNow = () => {
     useEffect(() => {
         if (amount && selectedPlan) {
             const token = localStorage.getItem('token');
-            axios.post('https://bnpl-backend.sezan.xyz/api/api/paylater/preview', {
+            axios.post('https://bnpl-backend.sezan.xyz/api/paylater/preview', {
                 phone,
                 amount,
                 package_id: selectedPlan.id

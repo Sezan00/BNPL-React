@@ -15,7 +15,7 @@ export const LoginMerchant = () => {
 
     const handleLogin = async () => {
         try {
-            const res = await axios.post("https://bnpl-backend.sezan.xyz/api/api/login/merchant", form)
+            const res = await axios.post("https://bnpl-backend.sezan.xyz/api/login/merchant", form)
             const token = res.data.token;
             localStorage.setItem("token", token);
             navigate('/merchant-dashboard');

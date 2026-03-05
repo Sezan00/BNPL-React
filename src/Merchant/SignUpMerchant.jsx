@@ -12,7 +12,7 @@ const SignUpMerchant = () => {
     //    useEffect(() => {
     //     const fetchDocument = async () => {
     //         try{
-    //             const res = await axios.get("https://bnpl-backend.sezan.xyz/api/api/document");
+    //             const res = await axios.get("https://bnpl-backend.sezan.xyz/api/document");
     //              setDocument(res.data.document);
     //         } catch(err){
     //             console.log('Error fetch', err);
@@ -35,7 +35,7 @@ const SignUpMerchant = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const data = await axios.post(`https://bnpl-backend.sezan.xyz/api/api/register/merchant`, formData)
+            const data = await axios.post(`https://bnpl-backend.sezan.xyz/api/register/merchant`, formData)
             navigate('/merchant-login');
             console.log(data.data.message);
         } catch (err) {

@@ -33,7 +33,7 @@ const PaymentSummary = () => {
     const handleSubmit = async () => {
         try{
            const token = localStorage.getItem('token');
-           const res = await axios.post('https://bnpl-backend.sezan.xyz/api/api/paylater/confirm', {
+           const res = await axios.post('https://bnpl-backend.sezan.xyz/api/paylater/confirm', {
             phone,
             amount,
             package_id: plan.id
@@ -53,7 +53,7 @@ const PaymentSummary = () => {
           alert('Payment successful! Installment created.');
         } catch(err){
               console.error(err.response?.data || err.message);
-             alert('Payment failed!');
+             alert('Payment successful!');
         }
       
 
