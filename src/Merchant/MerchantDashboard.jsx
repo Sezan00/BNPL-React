@@ -146,14 +146,14 @@ export const MerchantDashboard = () => {
 
           <div className="bg-white rounded-[2.5rem] p-8 border border-gray-100 shadow-sm">
             <p className="text-gray-400 text-[10px] font-black uppercase tracking-widest mb-2">Settled Funds</p>
-            <h2 className="text-3xl font-black text-slate-900 tracking-tighter">৳62,500</h2>
+            <h2 className="text-3xl font-black text-slate-900 tracking-tighter">$0</h2>
             <p className="text-xs font-bold text-green-500 mt-4 uppercase">Ready for Payout</p>
           </div>
 
           <div className="bg-white rounded-[2.5rem] p-8 border border-gray-100 shadow-sm">
             <p className="text-gray-400 text-[10px] font-black uppercase tracking-widest mb-2">Active BNPL Orders</p>
-            <h2 className="text-3xl font-black text-slate-900 tracking-tighter">12</h2>
-            <p className="text-xs font-bold text-indigo-600 mt-4 uppercase">4 New Today</p>
+            <h2 className="text-3xl font-black text-slate-900 tracking-tighter">0</h2>
+            <p className="text-xs font-bold text-indigo-600 mt-4 uppercase">0 New Today</p>
           </div>
         </div>
 
