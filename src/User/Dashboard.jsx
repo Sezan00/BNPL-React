@@ -173,7 +173,7 @@ export const Dashboard = () => {
           </div>
 
           {/* Next Due Card */}
-          <div className="col-span-12 md:col-span-4 bg-white border border-gray-100 border-radius: 2rem p-8 shadow-sm">
+          {/* <div className="col-span-12 md:col-span-4 bg-white border border-gray-100 border-radius: 2rem p-8 shadow-sm">
             <div className="w-12 h-12 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mb-6">
                <ArrowUpRight size={24} />
             </div>
@@ -182,7 +182,7 @@ export const Dashboard = () => {
             <p className="text-sm text-red-500 font-semibold bg-red-50 inline-block px-3 py-1 rounded-full">
               Due on 25 Jan
             </p>
-          </div>
+          </div> */}
 
           {/* Table / Transactions */}
           <div className="col-span-12 bg-white border border-gray-100 rounded-2xl p-8 shadow-sm mt-4">
