@@ -34,3 +34,8 @@ This project was built to understand and implement BNPL (Buy Now, Pay Later) use
 - 🔐 Payment Flow Handling
 - 📊 Payment Breakdown View
 - 🔄 State Management with Redux
+
+
+## 🎥 Demo Video
+
+[![Watch Demo](https://img.youtube.com/vi/odTBn4ikMFU/0.jpg)](https://youtu.be/odTBn4ikMFU)
